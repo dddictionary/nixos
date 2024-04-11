@@ -1,0 +1,39 @@
+{
+  description = "Nixos config flake";
+
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-23.11";
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { self, nixpkgs, home-manager, ... }:
+    let
+      lib = nixpkgs.lib;
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      nixosConfigurations.default = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/default/configuration.nix
+        ];
+      };
+      nixosConfigurations.plasma = lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/plasma/configuration.nix
+        ];
+      };
+
+      homeConfigurations = {
+        abrar = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [ ./home.nix ];
+        };
+      };
+    };
+}
