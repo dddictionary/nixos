@@ -40,6 +40,12 @@
     pkgs.neofetch
     pkgs.vesktop
     pkgs.nixfmt
+    pkgs.opentabletdriver
+    pkgs.unzip
+    pkgs.zsh-powerlevel10k
+    pkgs.zsh-autocomplete
+    pkgs.zsh-autosuggestions
+    pkgs.zsh-syntax-highlighting
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
