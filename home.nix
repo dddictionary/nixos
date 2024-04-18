@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, inputs, pkgs, pkgs-unstable, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -20,45 +20,54 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    pkgs.hello
-    pkgs.tree
-    pkgs.vscode
-    (pkgs.discord.override {
-      # remove any overrides that you don't want
-      withOpenASAR = true;
-      withVencord = true;
-    })
-    pkgs.racket
-    pkgs.mpv
-    pkgs.vlc
-    pkgs.ani-cli
-    pkgs.teams-for-linux
-    pkgs.evince
-    pkgs.neofetch
-    pkgs.vesktop
-    pkgs.nixfmt
-    pkgs.opentabletdriver
-    pkgs.unzip
-    pkgs.zsh-powerlevel10k
-    pkgs.zsh-autocomplete
-    pkgs.zsh-autosuggestions
-    pkgs.zsh-syntax-highlighting
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+  # # Adds the 'hello' command to your environment. It prints a friendly
+  # # "Hello, world!" when run.
+  
+  # # It is sometimes useful to fine-tune packages, for example, by applying
+  # # overrides. You can do that directly here, just don't forget the
+  # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+  # # fonts?
+  # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-  ];
+  # # You can also create simple shell scripts directly inside your
+  # # configuration. For example, this adds a command 'my-hello' to your
+  # # environment:
+  # (pkgs.writeShellScriptBin "my-hello" ''
+  #   echo "Hello, ${config.home.username}!"
+  # '')
+  home.packages = 
+    (with pkgs; [
+      racket
+      mpv
+      vlc
+      hello
+      tree
+      (discord.override {
+        # remove any overrides that you don't want
+        withOpenASAR = true;
+        withVencord = true;
+      })
+      teams-for-linux
+      evince
+      neofetch
+      vesktop
+      nixfmt
+      opentabletdriver
+      unzip
+      zsh-powerlevel10k
+      zsh-autocomplete
+      zsh-autosuggestions
+      zsh-syntax-highlighting
+    ])
+
+    ++
+
+    (with pkgs-unstable; [
+      minecraft
+      vscode
+      ani-cli
+      opentabletdriver
+    ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -96,6 +105,13 @@
   programs.home-manager.enable = true;
 
   nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = (_: true);
+    };
+  };
+
+nixpkgs-unstable = {
     config = {
       allowUnfree = true;
       allowUnfreePredicate = (_: true);

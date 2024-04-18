@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{config, pkgs, lib, ...}:
 
 {
   programs.zsh = {
@@ -14,6 +14,10 @@
     };
     history.size = 10000;
     history.path = "$HOME/.zsh_history";
+    # plugins = {
+
+    # };
   };
+
 
 }

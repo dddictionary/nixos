@@ -127,7 +127,7 @@
     git
     vim
     neovim
-    xdg-desktop-portal-gnome
+    xdg-desktop-portal-gtk
     xwaylandvideobridge
     python3
     rustup
