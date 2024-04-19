@@ -54,10 +54,11 @@
       nixfmt
       opentabletdriver
       unzip
-      zsh-powerlevel10k
-      zsh-autocomplete
-      zsh-autosuggestions
-      zsh-syntax-highlighting
+      opentabletdriver
+      # zsh-powerlevel10k
+      # zsh-autocomplete
+      # zsh-autosuggestions
+      # zsh-syntax-highlighting
     ])
 
     ++
@@ -66,7 +67,6 @@
       minecraft
       vscode
       ani-cli
-      opentabletdriver
     ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -104,19 +104,19 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = (_: true);
-    };
-  };
+#   nixpkgs = {
+#     config = {
+#       allowUnfree = true;
+#       allowUnfreePredicate = (_: true);
+#     };
+#   };
 
-nixpkgs-unstable = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = (_: true);
-    };
-  };
+# nixpkgs-unstable = {
+#     config = {
+#       allowUnfree = true;
+#       allowUnfreePredicate = (_: true);
+#     };
+#   };
 
   programs.git = {
     enable = true;

@@ -14,16 +14,19 @@
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+      commonArgs = { inherit system; config.allowUnfree = true; };
+      pkgs = import nixpkgs commonArgs;
+      pkgs-unstable = import nixpkgs-unstable commonArgs;
+      # pkgs = nixpkgs.legacyPackages.${system};
+      # pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in {
       nixosConfigurations.default = lib.nixosSystem {
-        inherit system;
+        inherit pkgs;
         modules = [ ./hosts/default/configuration.nix ];
         specialArgs = { inherit pkgs-unstable; };
       };
       nixosConfigurations.plasma = lib.nixosSystem {
-        inherit system;
+        inherit pkgs;
         modules = [ ./hosts/plasma/configuration.nix ];
         specialArgs = { inherit pkgs-unstable; };
       };
