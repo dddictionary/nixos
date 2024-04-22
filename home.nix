@@ -54,7 +54,7 @@
       nixfmt
       opentabletdriver
       unzip
-      opentabletdriver
+      spotify
       # zsh-powerlevel10k
       # zsh-autocomplete
       # zsh-autosuggestions
