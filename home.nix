@@ -55,6 +55,7 @@
       opentabletdriver
       unzip
       spotify
+      zoom-us
       # zsh-powerlevel10k
       # zsh-autocomplete
       # zsh-autosuggestions

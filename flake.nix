@@ -25,9 +25,16 @@
         modules = [ ./hosts/default/configuration.nix ];
         specialArgs = { inherit pkgs-unstable; };
       };
+
       nixosConfigurations.plasma = lib.nixosSystem {
         inherit pkgs;
         modules = [ ./hosts/plasma/configuration.nix ];
+        specialArgs = { inherit pkgs-unstable; };
+      };
+
+      nixosConfigurations.plasma-six = lib.nixosSystem {
+        inherit pkgs;
+        modules = [ ./hosts/plasma-six/configuration.nix ];
         specialArgs = { inherit pkgs-unstable; };
       };
 
