@@ -66,6 +66,7 @@
 
     (with pkgs-unstable; [
       minecraft
+      postman
       vscode
       ani-cli
     ]);
