@@ -120,7 +120,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = false;
 
@@ -128,6 +128,10 @@
 
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
+    prime = {
+      # sync.enable = true;
+      nvidiaBusId = "PCI:8:0:0";
+    };
   };
 
   # Home manager config

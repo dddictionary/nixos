@@ -5,7 +5,7 @@
 		font.name = "Iosevka";
 		shellIntegration.enableZshIntegration = true;
 		settings = {
-			font_family = "IosevkaTerm Nerd Font";
+			font_family = "IosevkaTerm Nerd Font Mono";
 			font_size = 16;
 			background_opacity = "0.85";
 			cursor_shape = "beam";
