@@ -60,7 +60,7 @@
   services.xserver.displayManager.sddm.wayland.enable = true;
 
   # disable certain plasma packages
-  environment.plasma6.excludePackages = with pkgs-unstable.kdePackages; [
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
     plasma-browser-integration
     konsole
     oxygen

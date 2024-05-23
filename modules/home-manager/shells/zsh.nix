@@ -12,12 +12,16 @@
     shellAliases = {
       ll = "ls -l";
       la = "ls -la";
+      cd = "z";
       switch-home = "home-manager switch --flake ~/nixos/";
       switch-nix = "sudo nixos-rebuild switch --flake ~/nixos/#plasma";
       # update = "home-manager switch --flake ~/nixos/";
     };
     initExtra = ''
-    [[ ! -f ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh ]] || source ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh'';
+    [[ ! -f ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh ]] || source ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh
+
+    eval "$(zoxide init zsh)"
+    '';
     history.size = 10000;
     history.path = "$HOME/.zsh_history";
     # plugins = [

@@ -56,6 +56,9 @@
       unzip
       spotify
       zoom-us
+      texliveFull
+      texstudio
+      python311Packages.pygments
       # zsh-powerlevel10k
       # zsh-autocomplete
       # zsh-autosuggestions
@@ -69,6 +72,7 @@
       postman
       vscode
       ani-cli
+      zoxide
     ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
