@@ -59,6 +59,7 @@
       texliveFull
       texstudio
       python311Packages.pygments
+      bat
       # zsh-powerlevel10k
       # zsh-autocomplete
       # zsh-autosuggestions
@@ -73,6 +74,8 @@
       vscode
       ani-cli
       zoxide
+      zed-editor
+     #  arc-browser
     ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

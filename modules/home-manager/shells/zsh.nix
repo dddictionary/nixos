@@ -6,15 +6,17 @@
     enable = true;
     enableCompletion = true;
     # autosuggestion.enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     # promptInit = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
     shellAliases = {
       ll = "ls -l";
       la = "ls -la";
       cd = "z";
+      cat = "bat";
       switch-home = "home-manager switch --flake ~/nixos/";
-      switch-nix = "sudo nixos-rebuild switch --flake ~/nixos/#plasma";
+      switch-nix = "sudo nixos-rebuild switch --flake ~/nixos/#plasma-six";
+      switch-both = "switch-home && switch-nix";
       # update = "home-manager switch --flake ~/nixos/";
     };
     initExtra = ''

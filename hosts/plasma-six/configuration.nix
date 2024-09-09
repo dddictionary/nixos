@@ -54,17 +54,8 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-  services.xserver.displayManager.sddm.wayland.enable = true;
-
-  # disable certain plasma packages
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    plasma-browser-integration
-    konsole
-    oxygen
-  ];
 
   # Configure keymap in X11
   services.xserver = {

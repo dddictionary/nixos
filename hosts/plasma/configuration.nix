@@ -100,7 +100,7 @@
   users.users.abrar = {
     isNormalUser = true;
     description = "abrar";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs;
       [
         firefox
@@ -164,6 +164,7 @@
   #zsh configuration
   environment.shells = with pkgs; [ zsh ];
   users.users.abrar.shell = pkgs.zsh;
+
   programs.zsh.enable = true;
   programs.neovim = {
     enable = true;
@@ -176,6 +177,13 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  # Docker setup
+  virtualisation.docker = {
+    enable = true;
+    rootless.enable = true;
+    rootless.setSocketVariable = true;
+  };
 
   # List services that you want to enable:
 
