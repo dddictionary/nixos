@@ -112,7 +112,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = false;
 
@@ -148,7 +148,11 @@
     gcc
     clang
   ];
-
+  
+  # font stuff
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "IosevkaTerm" ]; })
+  ];
   #zsh configuration
   environment.shells = with pkgs; [ zsh ];
   users.users.abrar.shell = pkgs.zsh;

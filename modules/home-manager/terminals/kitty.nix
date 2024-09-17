@@ -6,7 +6,7 @@
 		shellIntegration.enableZshIntegration = true;
 		settings = {
 			font_family = "IosevkaTerm Nerd Font Mono";
-			font_size = 14;
+			font_size = 16;
 			background_opacity = "0.85";
 			cursor_shape = "beam";
 			open_url_with = "default";
