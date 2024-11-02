@@ -11,7 +11,7 @@
 			cursor_shape = "beam";
 			open_url_with = "default";
 			detect_urls = true;
-			remember_windiw_size = true;
+			remember_window_size = true;
 			initial_window_width = 480;
 			initial_window_height = 270;
 		};

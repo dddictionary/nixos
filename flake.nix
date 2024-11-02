@@ -4,19 +4,26 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, ... }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
       commonArgs = { inherit system; config.allowUnfree = true; };
       pkgs = import nixpkgs commonArgs;
       pkgs-unstable = import nixpkgs-unstable commonArgs;
+      # spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
       # pkgs = nixpkgs.legacyPackages.${system};
       # pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in {
@@ -42,7 +49,7 @@
         abrar = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
-          extraSpecialArgs = { inherit pkgs-unstable; };
+          extraSpecialArgs = { inherit pkgs-unstable; inherit spicetify-nix; };
         };
       };
     };

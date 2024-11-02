@@ -1,5 +1,7 @@
-{ config, lib, inputs, pkgs, pkgs-unstable, ... }:
-
+{ config, lib, pkgs, pkgs-unstable, spicetify-nix, ... }:
+let 
+  spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -8,6 +10,8 @@
   imports = [
     ./modules/home-manager/terminals/kitty.nix
     ./modules/home-manager/shells/zsh.nix
+    ./modules/home-manager/editors/emacs.nix
+    spicetify-nix.homeManagerModules.default
   ];
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -22,7 +26,7 @@
   # environment.
   # # Adds the 'hello' command to your environment. It prints a friendly
   # # "Hello, world!" when run.
-  
+
   # # It is sometimes useful to fine-tune packages, for example, by applying
   # # overrides. You can do that directly here, just don't forget the
   # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -35,36 +39,39 @@
   # (pkgs.writeShellScriptBin "my-hello" ''
   #   echo "Hello, ${config.home.username}!"
   # '')
-  home.packages = 
-    (with pkgs; [
-      racket
-      mpv
-      vlc
-      hello
-      tree
-      (discord.override {
-        # remove any overrides that you don't want
-        withOpenASAR = true;
-        withVencord = true;
-      })
-      teams-for-linux
-      evince
-      neofetch
-      vesktop
-      nixfmt
-      opentabletdriver
-      unzip
-      spotify
-      zoom-us
-      texliveFull
-      texstudio
-      python311Packages.pygments
-      bat
-      # zsh-powerlevel10k
-      # zsh-autocomplete
-      # zsh-autosuggestions
-      # zsh-syntax-highlighting
-    ])
+  home.packages = (with pkgs; [
+    racket
+    mpv
+    vlc
+    hello
+    tree
+    (discord.override {
+      # remove any overrides that you don't want
+      withOpenASAR = true;
+      withVencord = true;
+    })
+    teams-for-linux
+    evince
+    neofetch
+    vesktop
+    nixfmt
+    opentabletdriver
+    unzip
+    # spotify
+    zoom-us
+    texliveFull
+    texstudio
+    python311Packages.pygments
+    bat
+    pandoc
+    libreoffice
+    # emacs
+    obs-studio
+    # zsh-powerlevel10k
+    # zsh-autocomplete
+    # zsh-autosuggestions
+    # zsh-syntax-highlighting
+  ])
 
     ++
 
@@ -113,19 +120,19 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-#   nixpkgs = {
-#     config = {
-#       allowUnfree = true;
-#       allowUnfreePredicate = (_: true);
-#     };
-#   };
+  #   nixpkgs = {
+  #     config = {
+  #       allowUnfree = true;
+  #       allowUnfreePredicate = (_: true);
+  #     };
+  #   };
 
-# nixpkgs-unstable = {
-#     config = {
-#       allowUnfree = true;
-#       allowUnfreePredicate = (_: true);
-#     };
-#   };
+  # nixpkgs-unstable = {
+  #     config = {
+  #       allowUnfree = true;
+  #       allowUnfreePredicate = (_: true);
+  #     };
+  #   };
 
   programs.git = {
     enable = true;
@@ -133,15 +140,29 @@
     userEmail = "abrarhabib285@gmail.com";
     extraConfig = {
       init.defaultBranch = "main";
-     # credential.helper = "${pkgs.git.override { withLibsecret = true; } 
+      # credential.helper = "${pkgs.git.override { withLibsecret = true; } 
       #			}/bin/git-credential-libsecret";
     };
   };
 
   programs.gh = {
-	enable = true;
-	gitCredentialHelper.enable = true;
-	settings.editor = "nvim";
+    enable = true;
+    gitCredentialHelper.enable = true;
+    settings.editor = "nvim";
   };
+
+  programs.spicetify = 
+  # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+  # in
+  {
+      enable = true;
+      enabledExtensions = with spicePkgs.extensions; [
+        adblock
+        hidePodcasts
+        shuffle # shuffle+ (special characters are sanitized out of extension names)
+      ];
+      theme = spicePkgs.themes.catppuccin;
+      colorScheme = "mocha";
+    };
 
 }
