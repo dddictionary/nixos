@@ -157,12 +157,29 @@ in
   {
       enable = true;
       enabledExtensions = with spicePkgs.extensions; [
-        adblock
-        hidePodcasts
         shuffle # shuffle+ (special characters are sanitized out of extension names)
       ];
       theme = spicePkgs.themes.catppuccin;
       colorScheme = "mocha";
     };
+
+  wayland.windowManager.hyprland =
+  let 
+    startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+      waybar &
+      swww init &
+      
+      sleep 1
+
+      swww img ./wallpapers/0001.jpg &
+    '';
+  in
+  {
+   enable  = true;
+   settings = {
+     exec-once = ''${startupScript}/bin/start'';
+   };
+  
+  };
 
 }

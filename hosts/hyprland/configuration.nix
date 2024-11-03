@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-unstable, inputs, ... }:
+{ config, pkgs, pkgs-unstable, inputs, hyprland, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -55,14 +55,14 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us, jp";
-    variant = "";
-    options = "grp:win_space_toggle";
-  };
+  # services.xserver.xkb = {
+  #   layout = "us, jp";
+  #   variant = "";
+  #   options = "grp:win_space_toggle";
+  # };
   
 
   # Enable CUPS to print documents.
@@ -131,6 +131,11 @@
 
   };
 
+  programs.hyprland = {
+    enable = true;
+    package = hyprland.packages."${pkgs.system}".hyprland;
+  };
+
   # Home manager config
   # home-manager = {
   #   extraSpecialArgs = {inherit inputs; };
@@ -158,8 +163,17 @@
     clang
     man-pages
     man-pages-posix
+    (waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    }))
+    libnotify
+    dunst
+    swww
+    rofi-wayland
   ];
   
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # font stuff
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "IosevkaTerm" ]; })

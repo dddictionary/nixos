@@ -14,9 +14,11 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, hyprland, ... }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -43,6 +45,12 @@
         inherit pkgs;
         modules = [ ./hosts/plasma-six/configuration.nix ];
         specialArgs = { inherit pkgs-unstable; };
+      };
+
+      nixosConfigurations.hyprland = lib.nixosSystem {
+        inherit pkgs;
+        modules = [ ./hosts/hyprland/configuration.nix ];
+        specialArgs = { inherit pkgs-unstable; inherit hyprland; };
       };
 
       homeConfigurations = {
