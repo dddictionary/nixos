@@ -151,6 +151,7 @@ in
     settings.editor = "nvim";
   };
 
+# This should also be in it's own text file!!
   programs.spicetify = 
   # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
   # in
@@ -163,21 +164,32 @@ in
       colorScheme = "mocha";
     };
 
+    # should should probably be in it's own separate file
+
   wayland.windowManager.hyprland =
   let 
+    # wallpaper = builtins.path{ path=./wallpapers/0001.jpg; };
     startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-      waybar &
-      swww init &
+      ${pkgs.waybar}/bin/waybar &
+      ${pkgs.swww}/bin/swww init &
       
       sleep 1
 
-      swww img ./wallpapers/0001.jpg &
+      ${pkgs.swww}/bin/swww img ./wallpapers/0001.jpg &
+      discord &
     '';
   in
   {
    enable  = true;
    settings = {
      exec-once = ''${startupScript}/bin/start'';
+     "$mod" = "SUPER";
+     bind = [
+      "$mod, return, exec, kitty"
+      "$mod, F, exec, firefox"
+      "$mod, Q, killactive"
+      "$mod, R, exec, rofi"
+     ];
    };
   
   };

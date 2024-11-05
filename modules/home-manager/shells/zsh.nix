@@ -15,7 +15,7 @@
       cd = "z";
       cat = "bat";
       switch-home = "home-manager switch --flake ~/nixos/";
-      switch-nix = "sudo nixos-rebuild switch --flake ~/nixos/#plasma-six";
+      switch-nix = "sudo nixos-rebuild switch --flake ~/nixos/#hyprland";
       switch-both = "switch-home && switch-nix";
       # update = "home-manager switch --flake ~/nixos/";
     };
