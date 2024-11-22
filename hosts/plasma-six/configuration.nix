@@ -148,8 +148,6 @@
     wget
     zsh
     git
-    vim
-    neovim
     xdg-desktop-portal-gtk
     xwaylandvideobridge
     python3

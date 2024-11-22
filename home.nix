@@ -11,6 +11,7 @@ in
     ./modules/home-manager/terminals/kitty.nix
     ./modules/home-manager/shells/zsh.nix
     ./modules/home-manager/editors/emacs.nix
+    ./modules/home-manager/editors/nixvim.nix
     spicetify-nix.homeManagerModules.default
   ];
   # This value determines the Home Manager release that your configuration is
@@ -152,17 +153,17 @@ in
   };
 
 # This should also be in it's own text file!!
-  programs.spicetify = 
-  # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
-  # in
-  {
-      enable = true;
-      enabledExtensions = with spicePkgs.extensions; [
-        shuffle # shuffle+ (special characters are sanitized out of extension names)
-      ];
-      theme = spicePkgs.themes.catppuccin;
-      colorScheme = "mocha";
-    };
+#  programs.spicetify = 
+#  # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+#  # in
+#  {
+#      enable = true;
+#      enabledExtensions = with spicePkgs.extensions; [
+#        shuffle # shuffle+ (special characters are sanitized out of extension names)
+#      ];
+#      theme = spicePkgs.themes.hazy;
+#      # colorScheme = "mocha";
+#    };
 
     # should should probably be in it's own separate file
 
