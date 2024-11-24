@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-unstable, spicetify-nix, ... }:
+{ config, lib, pkgs, pkgs-unstable, spicetify-nix, nixvim, ... }:
 let 
   spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
 in
@@ -11,6 +11,7 @@ in
     ./modules/home-manager/terminals/kitty.nix
     ./modules/home-manager/shells/zsh.nix
     ./modules/home-manager/editors/emacs.nix
+    nixvim.homeManagerModules.nixvim
     ./modules/home-manager/editors/nixvim.nix
     spicetify-nix.homeManagerModules.default
   ];
@@ -55,7 +56,7 @@ in
     evince
     neofetch
     vesktop
-    nixfmt
+    nixfmt-classic
     opentabletdriver
     unzip
     # spotify

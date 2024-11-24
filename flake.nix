@@ -16,7 +16,7 @@
     };
 
     nixvim = {
-	    url = "github:nix-community/nixvim";
+	    url = "github:nix-community/nixvim/nixos-24.05";
 	    inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -63,9 +63,8 @@
           inherit pkgs;
           modules = [ 
             ./home.nix
-            nixvim.homeManagerModules.nixvim 
           ];
-          extraSpecialArgs = { inherit pkgs-unstable; inherit spicetify-nix; };
+          extraSpecialArgs = { inherit pkgs-unstable spicetify-nix nixvim; };
         };
       };
     };

@@ -1,18 +1,21 @@
-{ config, pkgs, lib, nixvim, ... }:
-
-{
+{ config, pkgs, lib, ... }:
+let inherit (config.nixvim) helpers;
+in {
   programs.nixvim = {
     enable = true;
-    package = nixvim;
-    options = {
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+
+    opts = {
       number = true;
       relativenumber = true;
-
       shiftwidth = 2;
     };
 
-    plugins.lightline.enable = true;
+    luaLoader.enable = true;
+    plugins.lualine.enable = true;
 
-    colorschemes.gruvbox.enable = true;
+    colorschemes.catppuccin.enable = true;
   };
 }

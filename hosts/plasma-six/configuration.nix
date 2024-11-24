@@ -156,6 +156,7 @@
     clang
     man-pages
     man-pages-posix
+    tmux
   ];
   
   # font stuff
@@ -166,10 +167,6 @@
   environment.shells = with pkgs; [ zsh ];
   users.users.abrar.shell = pkgs.zsh;
   programs.zsh.enable = true;
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
