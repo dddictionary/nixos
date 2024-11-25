@@ -15,7 +15,8 @@ in {
 
     luaLoader.enable = true;
     plugins.lualine.enable = true;
-
-    colorschemes.catppuccin.enable = true;
+    
+    colorschemes.base16.enable = true;
+    colorschemes.base16.colorscheme = "gruvbox-dark-hard";
   };
 }

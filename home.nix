@@ -162,7 +162,7 @@ in
 #      enabledExtensions = with spicePkgs.extensions; [
 #        shuffle # shuffle+ (special characters are sanitized out of extension names)
 #      ];
-#      theme = spicePkgs.themes.hazy;
+#      theme = spicePkgs.themes.flow;
 #      # colorScheme = "mocha";
 #    };
 

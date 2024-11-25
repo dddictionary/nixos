@@ -161,7 +161,10 @@
   
   # font stuff
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "IosevkaTerm" ]; })
+    noto-fonts
+    (nerdfonts.override { fonts = [ 
+    "IosevkaTerm" 
+    ]; })
   ];
   #zsh configuration
   environment.shells = with pkgs; [ zsh ];
