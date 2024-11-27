@@ -162,6 +162,8 @@
   # font stuff
   fonts.packages = with pkgs; [
     noto-fonts
+    plemoljp-nf
+    ibm-plex
     (nerdfonts.override { fonts = [ 
     "IosevkaTerm" 
     ]; })
