@@ -69,10 +69,10 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
-  hardware.opentabletdriver.enable = true;
-
+  # hardware.opentabletdriver.enable = true;
+  #
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -113,7 +113,7 @@
 
   hardware.opengl = {
     enable = true;
-    driSupport = true;
+    # driSupport = true;
     driSupport32Bit = true;
   };
 

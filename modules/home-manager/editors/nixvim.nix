@@ -31,16 +31,27 @@ in {
     vim.keymap.set('n', 'gK', require('hover').hover_select, {desc = 'hover.nvim (select)'})
     vim.keymap.set('n', '<C-p>', function() require('hover').hover_switch('previous') end, {desc = 'hover.nvim (previous source)'})
     vim.keymap.set('n', '<C-p>', function() require('hover').hover_switch('next') end, {desc = 'hover.nvim (next source)'})
-    
+    vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, {})
+    vim.keymap.set('n', '<leader>ps', function() require('telescope.builtin').grep_string({ search = vim.fn.input(\"Grep > \")}) end)
     ";
+    
 
-    keymaps = [{
+    # remappings
+    globals.mapleader = " ";
+
+    keymaps = [
+    {
       action = "<cmd>lua vim.lsp.buf.hover()<CR>";
       key = "M";
       options = {
         # silent = true;
       };
-    }];
+    }
+    {
+      key = "<leader>ff";
+      action = "<cmd>Ex<CR>";
+    } 
+    ];
 
     opts = {
       number = true;
@@ -50,6 +61,11 @@ in {
 
     luaLoader.enable = true;
     plugins = {
+      auto-save.enable = true;
+      web-devicons.enable = true;
+
+
+
       lualine.enable = true;
       cmp-nvim-lsp.enable = true;
       telescope.enable = true;
@@ -78,14 +94,15 @@ in {
       lsp = {
         enable = true;
         servers = {
-          lua-ls.enable = true;
-          rust-analyzer = {
+          lua_ls.enable = true;
+          rust_analyzer = {
             enable = true;
             installCargo = false;
             installRustc = false;
           };
-          tsserver.enable = true;
+          ts_ls.enable = true;
           clangd.enable = true;
+	  pyright.enable = true;
         };
       };
       # cmp-clippy.enable = true;

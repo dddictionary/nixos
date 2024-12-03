@@ -3,8 +3,8 @@
 {
   programs.kitty = {
     enable = true;
-    theme = "Gruvbox Dark Hard";
-		font.name = "IBM Plex Mono";
+    themeFile ="GruvboxMaterialDarkHard";
+    font.name = "IBM Plex Mono";
     font.package = pkgs.ibm-plex;
     font.size = 13.5;
     shellIntegration.enableZshIntegration = true;

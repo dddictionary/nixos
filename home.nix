@@ -57,7 +57,7 @@ in
     neofetch
     vesktop
     nixfmt-classic
-    opentabletdriver
+    # opentabletdriver
     unzip
     # spotify
     zoom-us
@@ -66,9 +66,11 @@ in
     python311Packages.pygments
     bat
     pandoc
+    aoc-cli
     libreoffice
     # emacs
     obs-studio
+    ripgrep
     # zsh-powerlevel10k
     # zsh-autocomplete
     # zsh-autosuggestions
