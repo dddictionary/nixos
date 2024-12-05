@@ -9,6 +9,7 @@ in
   home.homeDirectory = "/home/abrar";
   imports = [
     ./modules/home-manager/terminals/kitty.nix
+    ./modules/home-manager/terminals/tmux.nix
     ./modules/home-manager/shells/zsh.nix
     ./modules/home-manager/editors/emacs.nix
     nixvim.homeManagerModules.nixvim
@@ -156,17 +157,18 @@ in
   };
 
 # This should also be in it's own text file!!
-#  programs.spicetify = 
-#  # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
-#  # in
-#  {
-#      enable = true;
-#      enabledExtensions = with spicePkgs.extensions; [
-#        shuffle # shuffle+ (special characters are sanitized out of extension names)
-#      ];
-#      theme = spicePkgs.themes.flow;
-#      # colorScheme = "mocha";
-#    };
+ programs.spicetify = 
+ # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+ # in
+ {
+     enable = true;
+     spicetifyPackage = pkgs-unstable.spicetify-cli;
+     enabledExtensions = with spicePkgs.extensions; [
+       shuffle # shuffle+ (special characters are sanitized out of extension names)
+     ];
+     theme = spicePkgs.themes.onepunch;
+     colorScheme = "gruvbox";
+   };
 
     # should should probably be in it's own separate file
 

@@ -156,7 +156,6 @@
     clang
     man-pages
     man-pages-posix
-    tmux
   ];
   
   # font stuff

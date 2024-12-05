@@ -63,8 +63,10 @@ in {
     plugins = {
       auto-save.enable = true;
       web-devicons.enable = true;
-
-
+      neocord.enable = true;
+      rustaceanvim = {
+	enable = true;
+      };
 
       lualine.enable = true;
       cmp-nvim-lsp.enable = true;
@@ -95,11 +97,7 @@ in {
         enable = true;
         servers = {
           lua_ls.enable = true;
-          rust_analyzer = {
-            enable = true;
-            installCargo = false;
-            installRustc = false;
-          };
+          
           ts_ls.enable = true;
           clangd.enable = true;
 	  pyright.enable = true;
