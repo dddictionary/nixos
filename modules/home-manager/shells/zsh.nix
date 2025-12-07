@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.zsh = {
     # localVariables = { POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD = true; };
     enable = true;
@@ -20,9 +23,9 @@
       # update = "home-manager switch --flake ~/nixos/";
     };
     initExtra = ''
-    [[ ! -f ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh ]] || source ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh
+      [[ ! -f ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh ]] || source ~/nixos/modules/home-manager/shells/p10k-config/p10k.zsh
 
-    eval "$(zoxide init zsh)"
+      eval "$(zoxide init zsh)"
     '';
     history.size = 10000;
     history.path = "$HOME/.zsh_history";
@@ -39,6 +42,13 @@
     #   }
     # ];
 
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "tmux"
+      ];
+    };
+
     zplug = {
       enable = true;
       plugins = [
@@ -52,7 +62,8 @@
           name = "zsh-users/zsh-completions";
         }
         {
-          name = "romkatv/powerlevel10k"; tags=[ as:theme depth:1];
+          name = "romkatv/powerlevel10k";
+          tags = [as:theme depth:1];
         }
       ];
     };

@@ -24,8 +24,19 @@
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.download-buffer-size = 524288000;
+  nix.settings.trusted-users = ["root" "abrar"];
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 30d";
+    dates = "weekly";
+  };
   # For Windows Time Compatibility
   time.hardwareClockInLocalTime = true;
+  
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "dotnet-runtime-6.0.36"
+  # ];
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -58,12 +69,12 @@
   services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us, jp";
-    variant = "";
-    options = "grp:win_space_toggle";
-  };
-  
+  # services.xserver.xkb = {
+  #   layout = "us, jp";
+  #   variant = "";
+  #   options = "grp:win_space_toggle";
+  # };
+  #
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -154,6 +165,9 @@
     rustup
     gcc
     clang
+    pkg-config-unwrapped
+    openssl
+    libressl
     man-pages
     man-pages-posix
   ];

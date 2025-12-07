@@ -1,9 +1,16 @@
 { config, pkgs, pkgs-unstable, lib, ... }:
-let inherit (config.nixvim) helpers;
+let 
+    inherit (config.nixvim) helpers;
+    neovim-unwrapped = pkgs-unstable.neovim-unwrapped.overrideAttrs (old: {
+    meta = old.meta or { } // {
+      maintainers = [ ];
+    };
+  });
 in {
   programs.nixvim = {
     enable = true;
-    package = pkgs-unstable.neovim-unwrapped;
+    package = neovim-unwrapped;
+
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
@@ -41,8 +48,8 @@ in {
 
     keymaps = [
     {
-      action = "<cmd>lua vim.lsp.buf.hover()<CR>";
       key = "M";
+      action = "<cmd>lua vim.lsp.buf.hover()<CR>";
       options = {
         # silent = true;
       };
@@ -51,16 +58,49 @@ in {
       key = "<leader>ff";
       action = "<cmd>Ex<CR>";
     } 
+    {
+      key = "<C-j>";
+      action = "<Esc>";
+    } 
     ];
 
     opts = {
       number = true;
       relativenumber = true;
-      shiftwidth = 2;
+      shiftwidth = 4;
     };
 
     luaLoader.enable = true;
     plugins = {
+
+      harpoon = {
+	enable = true;
+	enableTelescope = true;
+
+# vim.keymap.set('n', '<leader>a', function() harpoon:list():add() end)
+# vim.keymap.set('n', '<C-e>', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+# vim.keymap.set('n', '<C-h>', function() harpoon:list():select(1) end)
+# vim.keymap.set('n', '<C-t>', function() harpoon:list():select(2) end)
+# vim.keymap.set('n', '<C-n>', function() harpoon:list():select(3) end)
+# vim.keymap.set('n', '<C-s>', function() harpoon:list():select(4) end)
+# -- Toggle previous & next buffers stored within Harpoon list
+# vim.keymap.set('n', '<C-S-P>', function() harpoon:list():prev() end)
+# vim.keymap.set('n', '<C-S-N>', function() harpoon:list():next() end)
+	keymaps = {
+	    addFile = "<leader>a";
+	    toggleQuickMenu = "<C-e>";
+	    gotoTerminal = {
+		"1" = "<C-j>";
+		"2" = "<C-k>";
+		"3" = "<C-l>";
+		"4" = "<C-m>";
+	    };
+	    navNext = "<C-S-N>";
+	    navPrev = "<C-S-P>";
+	};	
+    };
+
+      render-markdown.enable = true;
       auto-save.enable = true;
       web-devicons.enable = true;
       neocord.enable = true;
@@ -70,7 +110,9 @@ in {
 
       lualine.enable = true;
       cmp-nvim-lsp.enable = true;
-      telescope.enable = true;
+      telescope = {
+	enable = true;
+      };
 
       autoclose = {
         enable = true;
@@ -95,6 +137,7 @@ in {
 
       lsp = {
         enable = true;
+	inlayHints = true;
         servers = {
           lua_ls.enable = true;
           

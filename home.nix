@@ -1,8 +1,14 @@
-{ config, lib, pkgs, pkgs-unstable, spicetify-nix, nixvim, ... }:
-let 
-  spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
-in
 {
+  config,
+  lib,
+  pkgs,
+  pkgs-unstable,
+  spicetify-nix,
+  nixvim,
+  ...
+}: let
+  spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "abrar";
@@ -11,9 +17,9 @@ in
     ./modules/home-manager/terminals/kitty.nix
     ./modules/home-manager/terminals/tmux.nix
     ./modules/home-manager/shells/zsh.nix
-    ./modules/home-manager/editors/emacs.nix
-    nixvim.homeManagerModules.nixvim
-    ./modules/home-manager/editors/nixvim.nix
+    # ./modules/home-manager/editors/emacs.nix
+    # nixvim.homeManagerModules.nixvim
+    # ./modules/home-manager/editors/nixvim.nix
     spicetify-nix.homeManagerModules.default
   ];
   # This value determines the Home Manager release that your configuration is
@@ -42,45 +48,48 @@ in
   # (pkgs.writeShellScriptBin "my-hello" ''
   #   echo "Hello, ${config.home.username}!"
   # '')
-  home.packages = (with pkgs; [
-    racket
-    mpv
-    vlc
-    hello
-    tree
-    (discord.override {
-      # remove any overrides that you don't want
-      withOpenASAR = true;
-      withVencord = true;
-    })
-    teams-for-linux
-    evince
-    neofetch
-    vesktop
-    nixfmt-classic
-    # opentabletdriver
-    unzip
-    # spotify
-    zoom-us
-    texliveFull
-    texstudio
-    python311Packages.pygments
-    bat
-    pandoc
-    aoc-cli
-    libreoffice
-    # emacs
-    obs-studio
-    ripgrep
-    # zsh-powerlevel10k
-    # zsh-autocomplete
-    # zsh-autosuggestions
-    # zsh-syntax-highlighting
-  ])
-
-    ++
-
-    (with pkgs-unstable; [
+  home.packages =
+    (with pkgs; [
+      racket
+      mpv
+      vlc
+      hello
+      tree
+      (discord-canary.override {
+        # remove any overrides that you don't want
+        withOpenASAR = true;
+        withVencord = true;
+      })
+      # discord-canary
+      teams-for-linux
+      evince
+      neofetch
+      vesktop
+      nixfmt-classic
+      rustlings
+      # opentabletdriver
+      unzip
+      # spotify
+      zoom-us
+      styluslabs-write-bin
+      texliveFull
+      texstudio
+      python311Packages.pygments
+      bat
+      pandoc
+      aoc-cli
+      libreoffice
+      # emacs
+      obs-studio
+      ripgrep
+      chromium
+      gparted
+      # zsh-powerlevel10k
+      # zsh-autocomplete
+      # zsh-autosuggestions
+      # zsh-syntax-highlighting
+    ])
+    ++ (with pkgs-unstable; [
       # minecraft
       postman
       vscode
@@ -120,7 +129,7 @@ in
   #
   #  /etc/profiles/per-user/abrar/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = { EDITOR = "nvim"; };
+  home.sessionVariables = {EDITOR = "nvim";};
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -145,7 +154,7 @@ in
     userEmail = "abrarhabib285@gmail.com";
     extraConfig = {
       init.defaultBranch = "main";
-      # credential.helper = "${pkgs.git.override { withLibsecret = true; } 
+      # credential.helper = "${pkgs.git.override { withLibsecret = true; }
       #			}/bin/git-credential-libsecret";
     };
   };
@@ -156,48 +165,43 @@ in
     settings.editor = "nvim";
   };
 
-# This should also be in it's own text file!!
- programs.spicetify = 
- # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
- # in
- {
-     enable = true;
-     spicetifyPackage = pkgs-unstable.spicetify-cli;
-     enabledExtensions = with spicePkgs.extensions; [
-       shuffle # shuffle+ (special characters are sanitized out of extension names)
-     ];
-     theme = spicePkgs.themes.onepunch;
-     colorScheme = "gruvbox";
-   };
+  # This should also be in it's own text file!!
+  programs.spicetify =
+    # let spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+    # in
+    {
+      enable = true;
+      enabledExtensions = with spicePkgs.extensions; [
+        shuffle # shuffle+ (special characters are sanitized out of extension names)
+      ];
+      theme = spicePkgs.themes.onepunch;
+      colorScheme = "dark";
+    };
 
-    # should should probably be in it's own separate file
+  # should should probably be in it's own separate file
 
-  wayland.windowManager.hyprland =
-  let 
+  wayland.windowManager.hyprland = let
     # wallpaper = builtins.path{ path=./wallpapers/0001.jpg; };
     startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
       ${pkgs.waybar}/bin/waybar &
       ${pkgs.swww}/bin/swww init &
-      
+
       sleep 1
 
       ${pkgs.swww}/bin/swww img ./wallpapers/0001.jpg &
       discord &
     '';
-  in
-  {
-   enable  = true;
-   settings = {
-     exec-once = ''${startupScript}/bin/start'';
-     "$mod" = "SUPER";
-     bind = [
-      "$mod, return, exec, kitty"
-      "$mod, F, exec, firefox"
-      "$mod, Q, killactive"
-      "$mod, R, exec, rofi"
-     ];
-   };
-  
+  in {
+    enable = true;
+    settings = {
+      exec-once = ''${startupScript}/bin/start'';
+      "$mod" = "SUPER";
+      bind = [
+        "$mod, return, exec, kitty"
+        "$mod, F, exec, firefox"
+        "$mod, Q, killactive"
+        "$mod, R, exec, rofi"
+      ];
+    };
   };
-
 }

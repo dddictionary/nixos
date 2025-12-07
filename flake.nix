@@ -21,6 +21,8 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
+
+    # textfox.url = "github:adriankarlen/textfox";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, hyprland, nixvim, ... }@inputs:
@@ -50,11 +52,6 @@
         inherit pkgs;
         modules = [
 	  ./hosts/plasma-six/configuration.nix 
-	  # {
-	  #   nixpkgs.config.permittedInsecurePackages = [
-	  #     "dotnet-runtime-6.0.36"
-	  #   ];
-	  # }
 	];
         specialArgs = { inherit pkgs-unstable; };
       };
