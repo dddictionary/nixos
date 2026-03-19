@@ -10,6 +10,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
+    personal-home-manager = {
+      url = "github:dddictionary/home-manager";
+    };
+
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,20 +25,15 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
-
-    # textfox.url = "github:adriankarlen/textfox";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, hyprland, nixvim-config, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, personal-home-manager, spicetify-nix, hyprland, nixvim-config, ... }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
       commonArgs = { inherit system; config.allowUnfree = true; };
       pkgs = import nixpkgs commonArgs;
       pkgs-unstable = import nixpkgs-unstable commonArgs;
-      # spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
-      # pkgs = nixpkgs.legacyPackages.${system};
-      # pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in {
       nixosConfigurations.nixos = lib.nixosSystem {
         inherit pkgs;
@@ -42,24 +41,9 @@
         specialArgs = { inherit pkgs-unstable; };
       };
 
-      # Legacy host configs kept for reference until nixos config is verified
-      nixosConfigurations.default = lib.nixosSystem {
-        inherit pkgs;
-        modules = [ ./hosts/default/configuration.nix ];
-        specialArgs = { inherit pkgs-unstable; };
-      };
-
-      nixosConfigurations.plasma = lib.nixosSystem {
-        inherit pkgs;
-        modules = [ ./hosts/plasma/configuration.nix ];
-        specialArgs = { inherit pkgs-unstable; };
-      };
-
       nixosConfigurations.plasma-six = lib.nixosSystem {
         inherit pkgs;
-        modules = [
-          ./hosts/plasma-six/configuration.nix
-        ];
+        modules = [ ./hosts/plasma-six/configuration.nix ];
         specialArgs = { inherit pkgs-unstable; };
       };
 
@@ -73,9 +57,14 @@
         abrar = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ 
+            "${personal-home-manager}/home.nix"
             ./home.nix
           ];
-          extraSpecialArgs = { inherit pkgs-unstable spicetify-nix nixvim-config; system = pkgs.stdenv.hostPlatform.system; };
+          extraSpecialArgs = {
+            inherit pkgs-unstable spicetify-nix nixvim-config;
+            system = "x86_64-linux";
+            homeDirectory = "/home/abrar";
+          };
         };
       };
     };

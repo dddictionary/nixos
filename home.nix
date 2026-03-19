@@ -4,63 +4,24 @@
   pkgs,
   pkgs-unstable,
   spicetify-nix,
-  nixvim-config,
-  system,
   ...
 }: let
   spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
 in {
-  home.username = "abrar";
-  home.homeDirectory = "/home/abrar";
-  home.stateVersion = "23.11";
-
   imports = [
-    ./modules/home-manager/terminals/kitty.nix
-    ./modules/home-manager/terminals/tmux.nix
-    ./modules/home-manager/shells/zsh.nix
-    ./modules/home-manager/git.nix
-    ./modules/home-manager/gitignore.nix
-    ./modules/home-manager/graphite.nix
     spicetify-nix.homeManagerModules.default
   ];
 
+  # NixOS-specific shell aliases
+  programs.zsh.shellAliases = {
+    switch-home = "home-manager switch --flake ~/nixos/";
+    switch-nix = "sudo nixos-rebuild switch --flake ~/nixos/#nixos";
+    switch-both = "switch-home && switch-nix";
+  };
+
+  # NixOS desktop packages (personal layer handles CLI tools)
   home.packages =
     (with pkgs; [
-      # CLI tools
-      ripgrep
-      fd
-      fzf
-      jq
-      bat
-      eza
-      zoxide
-      tmux
-      viddy
-      glow
-      git
-      gh
-      delta
-      btop
-      ncdu
-      curl
-      wget
-      httpie
-      tree
-      unzip
-      pandoc
-      aoc-cli
-
-      # Fonts
-      nerd-fonts.blex-mono
-
-      # Dev
-      nodejs_20
-      python3
-      ruby
-      nixfmt-classic
-      rustlings
-      python311Packages.pygments
-
       # Desktop apps
       racket
       mpv
@@ -81,32 +42,24 @@ in {
       obs-studio
       chromium
       gparted
+
+      # Extra dev tools
+      nixfmt-classic
+      rustlings
+      python311Packages.pygments
+      tree
+      unzip
+      pandoc
+      aoc-cli
     ])
     ++ (with pkgs-unstable; [
       postman
       vscode
       ani-cli
       zed-editor
-    ])
-    ++ [ nixvim-config.packages.${system}.default ];
+    ]);
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    PAGER = "less";
-  };
-
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
-
-  programs.home-manager.enable = true;
-
-  programs.gh = {
-    enable = true;
-    gitCredentialHelper.enable = true;
-    settings.editor = "nvim";
-  };
-
+  # Spicetify (Spotify theming)
   programs.spicetify = {
     enable = true;
     enabledExtensions = with spicePkgs.extensions; [
@@ -116,6 +69,7 @@ in {
     colorScheme = "dark";
   };
 
+  # Hyprland window manager
   wayland.windowManager.hyprland = let
     startupScript = pkgs.writeShellScriptBin "start" ''
       ${pkgs.waybar}/bin/waybar &
