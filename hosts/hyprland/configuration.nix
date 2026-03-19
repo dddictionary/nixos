@@ -157,7 +157,6 @@
     vim
     neovim
     xdg-desktop-portal-gtk
-    xwaylandvideobridge
     python3
     rustup
     gcc
@@ -177,7 +176,7 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # font stuff
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "IosevkaTerm" ]; })
+    nerd-fonts.blex-mono
   ];
   #zsh configuration
   environment.shells = with pkgs; [ zsh ];

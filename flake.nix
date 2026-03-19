@@ -2,11 +2,11 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.11";
+    nixpkgs.url = "nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
@@ -15,8 +15,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim/nixos-24.11";
+    nixvim-config = {
+      url = "github:dddictionary/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -25,7 +25,7 @@
     # textfox.url = "github:adriankarlen/textfox";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, hyprland, nixvim, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, hyprland, nixvim-config, ... }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -36,6 +36,13 @@
       # pkgs = nixpkgs.legacyPackages.${system};
       # pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in {
+      nixosConfigurations.nixos = lib.nixosSystem {
+        inherit pkgs;
+        modules = [ ./hosts/nixos/configuration.nix ];
+        specialArgs = { inherit pkgs-unstable; };
+      };
+
+      # Legacy host configs kept for reference until nixos config is verified
       nixosConfigurations.default = lib.nixosSystem {
         inherit pkgs;
         modules = [ ./hosts/default/configuration.nix ];
@@ -51,8 +58,8 @@
       nixosConfigurations.plasma-six = lib.nixosSystem {
         inherit pkgs;
         modules = [
-	  ./hosts/plasma-six/configuration.nix 
-	];
+          ./hosts/plasma-six/configuration.nix
+        ];
         specialArgs = { inherit pkgs-unstable; };
       };
 
@@ -68,7 +75,7 @@
           modules = [ 
             ./home.nix
           ];
-          extraSpecialArgs = { inherit pkgs-unstable spicetify-nix nixvim; };
+          extraSpecialArgs = { inherit pkgs-unstable spicetify-nix nixvim-config; system = pkgs.stdenv.hostPlatform.system; };
         };
       };
     };

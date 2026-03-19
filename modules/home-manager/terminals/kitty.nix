@@ -1,24 +1,29 @@
-{ pkgs, ... }:
-
 {
   programs.kitty = {
     enable = true;
-    themeFile ="GruvboxMaterialDarkHard";
-    font.name = "IBM Plex Mono";
-    font.package = pkgs.ibm-plex;
-    font.size = 13.5;
+
+    font = {
+      name = "Blex Mono Nerd Font";
+      size = 12;
+    };
+
     shellIntegration.enableZshIntegration = true;
+
     settings = {
-      # font_family = "IBM Plex Mono Thin";
-      # font_size = 13;
-      background_opacity = "0.95";
+      linux_display_server = "auto";
       cursor_shape = "beam";
       open_url_with = "firefox";
       detect_urls = true;
-      dynamic_background_opacity = true;
-      remember_window_size = true;
-      initial_window_width = 480;
-      initial_window_height = 270;
+      allow_remote_control = "yes";
+      editor = "nvim";
+      tab_bar_edge = "top";
+      tab_bar_style = "separator";
     };
+
+    keybindings = {
+      "ctrl+backspace" = "send_text all \\x17";
+    };
+
+    themeFile = "kanagawabones";
   };
 }

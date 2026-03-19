@@ -121,7 +121,6 @@
     vim
     neovim
     xdg-desktop-portal-gnome
-    xwaylandvideobridge
   ];
 
   #zsh configuration

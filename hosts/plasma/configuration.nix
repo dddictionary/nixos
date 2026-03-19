@@ -154,7 +154,6 @@
     vim
     neovim
     xdg-desktop-portal-gtk
-    xwaylandvideobridge
     python3
     rustup
     gcc

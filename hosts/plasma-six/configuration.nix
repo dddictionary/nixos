@@ -1,11 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, pkgs-unstable, inputs, ... }:
-
 {
-  imports = [ # Include the results of the hardware scan.
+  config,
+  pkgs,
+  pkgs-unstable,
+  inputs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
@@ -16,14 +20,24 @@
     efi.canTouchEfiVariables = true;
     grub = {
       enable = true;
-      devices = [ "nodev" ];
+      devices = ["nodev"];
       efiSupport = true;
-      useOSProber = true;
+      useOSProber = false;
+      extraEntries = ''
+        menuentry "Arch Linux" --class arch {
+          search --fs-uuid --no-floppy --set=root FBFE-E5C6
+          chainloader /EFI/GRUB/grubx64.efi
+        }
+        menuentry "Windows" --class windows {
+          search --fs-uuid --no-floppy --set=root 1E9E-D1AB
+          chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+        }
+      '';
     };
   };
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.download-buffer-size = 524288000;
   nix.settings.trusted-users = ["root" "abrar"];
   nix.gc = {
@@ -33,7 +47,7 @@
   };
   # For Windows Time Compatibility
   time.hardwareClockInLocalTime = true;
-  
+
   # nixpkgs.config.permittedInsecurePackages = [
   #   "dotnet-runtime-6.0.36"
   # ];
@@ -105,12 +119,11 @@
   users.users.abrar = {
     isNormalUser = true;
     description = "abrar";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs;
-      [
-        firefox
-        #  thunderbird
-      ];
+    extraGroups = ["networkmanager" "wheel"];
+    packages = with pkgs; [
+      firefox
+      #  thunderbird
+    ];
   };
 
   # Emacs client
@@ -118,7 +131,6 @@
     enable = true;
     package = pkgs.emacs;
   };
-
 
   # Nvidia GPU Stuff
 
@@ -128,7 +140,7 @@
     driSupport32Bit = true;
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -139,7 +151,6 @@
     nvidiaSettings = true;
 
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-
   };
 
   # Home manager config
@@ -160,7 +171,6 @@
     zsh
     git
     xdg-desktop-portal-gtk
-    xwaylandvideobridge
     python3
     rustup
     gcc
@@ -171,18 +181,16 @@
     man-pages
     man-pages-posix
   ];
-  
+
   # font stuff
   fonts.packages = with pkgs; [
     noto-fonts
     plemoljp-nf
     ibm-plex
-    (nerdfonts.override { fonts = [ 
-    "IosevkaTerm" 
-    ]; })
+    nerd-fonts.blex-mono
   ];
   #zsh configuration
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [zsh];
   users.users.abrar.shell = pkgs.zsh;
   programs.zsh.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
@@ -211,5 +219,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }
