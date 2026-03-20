@@ -58,7 +58,6 @@
           inherit pkgs;
           modules = [ 
             "${personal-home-manager}/home.nix"
-            ./home.nix
           ];
           extraSpecialArgs = {
             inherit pkgs-unstable spicetify-nix nixvim-config;
