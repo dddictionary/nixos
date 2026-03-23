@@ -35,22 +35,11 @@
       pkgs = import nixpkgs commonArgs;
       pkgs-unstable = import nixpkgs-unstable commonArgs;
     in {
+      # All targets use the same host — swap desktop by editing imports in configuration.nix
       nixosConfigurations.nixos = lib.nixosSystem {
         inherit pkgs;
         modules = [ ./hosts/nixos/configuration.nix ];
-        specialArgs = { inherit pkgs-unstable; };
-      };
-
-      nixosConfigurations.plasma-six = lib.nixosSystem {
-        inherit pkgs;
-        modules = [ ./hosts/plasma-six/configuration.nix ];
-        specialArgs = { inherit pkgs-unstable; };
-      };
-
-      nixosConfigurations.hyprland = lib.nixosSystem {
-        inherit pkgs;
-        modules = [ ./hosts/hyprland/configuration.nix ];
-        specialArgs = { inherit pkgs-unstable; inherit hyprland; };
+        specialArgs = { inherit pkgs-unstable hyprland; };
       };
 
       homeConfigurations = {

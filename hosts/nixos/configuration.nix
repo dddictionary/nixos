@@ -2,11 +2,14 @@
   config,
   pkgs,
   pkgs-unstable,
+  hyprland ? null,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/desktop/plasma6.nix
+    # Desktop environment — uncomment one:
+    # ../../modules/desktop/plasma6.nix
+    ../../modules/desktop/hyprland.nix
   ];
 
   # Bootloader.
