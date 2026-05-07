@@ -4,7 +4,13 @@
   pkgs-unstable,
   hyprland ? null,
   ...
-}: {
+}:
+let
+  helmWithPlugins = pkgs.wrapHelm pkgs.kubernetes-helm {
+    plugins = with pkgs.kubernetes-helmPlugins; [ helm-diff ];
+  };
+in
+{
   imports = [
     ./hardware-configuration.nix
     # Desktop environment — uncomment one:
@@ -39,6 +45,14 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.download-buffer-size = 524288000;
   nix.settings.trusted-users = ["root" "abrar"];
+  nix.settings.extra-substituters = [
+    "https://vicinae.cachix.org"
+    "https://cuda-maintainers.cachix.org"
+  ];
+  nix.settings.extra-trusted-public-keys = [
+    "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
+    "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+  ];
   nix.gc = {
     automatic = true;
     options = "--delete-older-than 30d";
@@ -79,11 +93,16 @@
   users.users.abrar = {
     isNormalUser = true;
     description = "abrar";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; [
       firefox
     ];
   };
+
+  virtualisation.docker.enable = true;
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   # Emacs client
   services.emacs = {
@@ -122,6 +141,11 @@
     libressl
     man-pages
     man-pages-posix
+    docker-compose
+    kubectl
+    helmWithPlugins
+    (helmfile-wrapped.override { inherit (helmWithPlugins) pluginsDir; })
+    kind
   ];
 
   fonts.packages = with pkgs; [
@@ -136,6 +160,7 @@
   programs.zsh.enable = true;
 
   services.openssh.enable = true;
+  services.tailscale.enable = true;
 
   system.stateVersion = "23.11";
 }
